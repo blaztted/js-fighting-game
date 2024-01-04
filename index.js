@@ -21,7 +21,17 @@ const player = new Sprite({
   x: 0,
   y: 0,
 });
-
 player.draw();
 
-console.log(player);
+const enemy = new Sprite({
+  x: 400,
+  y: 100,
+});
+enemy.draw();
+
+function animate() {
+  //infinite loop, always calling the animate function so it knows we want constant animation until it stops
+  window.requestAnimationFrame(animate);
+}
+
+animate();
