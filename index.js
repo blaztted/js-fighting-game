@@ -53,6 +53,17 @@ const enemy = new Sprite({
   },
 });
 
+const keys = {
+  a: {
+    pressed: false,
+  },
+  d: {
+    pressed: false,
+  },
+};
+
+let lastKey;
+
 function animate() {
   //infinite loop, always calling the animate function so it knows we want constant animation until it stops
   window.requestAnimationFrame(animate);
@@ -60,6 +71,13 @@ function animate() {
   c.fillRect(0, 0, canvas.width, canvas.height); // not drawing anything when calling function
   player.update();
   enemy.update();
+
+  player.velocity.x = 0;
+  if (keys.a.pressed && lastKey === "a") {
+    player.velocity.x = -1;
+  } else if (keys.d.pressed && lastKey === "d") {
+    player.velocity.x = 1; //moving 1px for every frame we update
+  }
 }
 
 animate();
@@ -67,7 +85,12 @@ animate();
 window.addEventListener("keydown", (e) => {
   switch (e.key) {
     case "d":
-      player.velocity.x = 1; //moving 1px for every frame we update
+      keys.d.pressed = true;
+      lastKey = "d";
+      break;
+    case "a":
+      keys.a.pressed = true;
+      lastKey = "a";
       break;
   }
   console.log(e.key);
@@ -76,7 +99,11 @@ window.addEventListener("keydown", (e) => {
 window.addEventListener("keyup", (e) => {
   switch (e.key) {
     case "d":
-      player.velocity.x = 0; //moving 1px for every frame we update
+      keys.d.pressed = false;
+      break;
+    case "a":
+      keys.a.pressed = false;
+
       break;
   }
   console.log(e.key);
