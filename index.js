@@ -6,6 +6,8 @@ canvas.height = 576;
 
 c.fillRect(0, 0, canvas.width, canvas.height);
 
+const gravity = 0.2;
+
 class Sprite {
   constructor({ position, velocity }) {
     this.position = position;
@@ -19,11 +21,13 @@ class Sprite {
   }
   update() {
     this.draw();
+
+    this.position.x += this.velocity.x;
     this.position.y += this.velocity.y;
 
     if (this.position.y + this.height + this.velocity.y >= canvas.height) {
       this.velocity.y = 0;
-    }
+    } else this.velocity.y += gravity;
   }
 }
 
@@ -34,7 +38,7 @@ const player = new Sprite({
   },
   velocity: {
     x: 0,
-    y: 10,
+    y: 0,
   },
 });
 
@@ -59,3 +63,21 @@ function animate() {
 }
 
 animate();
+
+window.addEventListener("keydown", (e) => {
+  switch (e.key) {
+    case "d":
+      player.velocity.x = 1; //moving 1px for every frame we update
+      break;
+  }
+  console.log(e.key);
+});
+
+window.addEventListener("keyup", (e) => {
+  switch (e.key) {
+    case "d":
+      player.velocity.x = 0; //moving 1px for every frame we update
+      break;
+  }
+  console.log(e.key);
+});
